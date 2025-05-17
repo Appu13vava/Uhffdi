@@ -1,12 +1,14 @@
-FROM python:3.8-slim-buster
+FROM python:3.11-slim
 
-RUN apt update && apt upgrade -y
-RUN apt install git -y
+RUN apt update && apt upgrade -y && apt install git -y
+
 COPY requirements.txt /requirements.txt
+RUN pip3 install -U pip && pip3 install -r /requirements.txt
 
-RUN cd /
-RUN pip3 install -U pip && pip3 install -U -r requirements.txt
 RUN mkdir /EvaMaria
 WORKDIR /EvaMaria
-COPY start.sh /start.sh
+
+COPY . /EvaMaria
+
+RUN chmod +x /start.sh
 CMD ["/bin/bash", "/start.sh"]
